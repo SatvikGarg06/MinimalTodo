@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container d-flex justify-content-center align-items-center mt-2" style="min-height: 80vh;">
+        <div class="card p-4 shadow" style="background-color: #1e1e1e; border: none; width: 100%; max-width: 800px; border-radius: 20px">
+            <h3 class="text-center mb-4 text-light fs-2">
+                Your Todos
+                <hr style="color: white;"/>
+            </h3>
+            {% if todos %}
+                <div class="accordion" id="todoAccordion">
+                    {% for item in todos %}
+                        <div class="accordion-item bg-dark text-light rounded mb-2" style="border: 1px solid #444;">
+                            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                <button class="accordion-button collapsed bg-dark text-light fw-bold fs-5 d-flex justify-content-between align-items-center" style="background-image: none;" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                                    <div class="d-flex w-100 justify-content-between align-items-center">
+                                        <span>{{ item.task_name }}</span>
+                                        <div class="d-flex">
+                                            <form action="{% url 'edit-task' item.id %}" method="GET">
+                                                <input type="submit" class="btn btn-sm btn-warning" value="Edit" style="margin-right: 10px;">
+                                            </form>
+                                            <form action="{% url 'delete-task' item.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <input type="submit" class="btn btn-sm btn-danger" value="Delete" onclick="return confirm('Are you sure you want to delete this task?');">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#todoAccordion">
+                                <div class="accordion-body">
+                                    {% if item.task_desc %}<p class="mb-1">{{ item.task_desc }}</p>{% endif %}
+                                    <p class="mb-1"><strong>Added:</strong> {{ item.date_added }}</p>
+                                    {% if item.due_date %}<p class="mb-0"><strong>Due:</strong> {{ item.due_date }}</p>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="accordion-item bg-dark text-light rounded mb-2" style="border: 1px solid #444; height: 55px;">
+                        <h2 class="accordion-header">
+                            <a href="{% url 'new-task' %}" class="btn btn-outline-light w-100 fw-bold fs-5" style="border-radius: 5px; text-decoration: none; height: 55px; display: flex; justify-content: center; align-items: center;">
+                                {% load static %}
+                                <img src="{% static 'images/plus.svg' %}" height="40px">Add a new task
+                            </a>
+                        </h2>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-light text-center">No todos yet. Add a new one!</p>
+                <div class="accordion-item bg-dark text-light rounded mb-2" style="border: 1px solid #444; height: 55px;">
+                    <h2 class="accordion-header">
+                        <a href="{% url 'new-task' %}" class="btn btn-outline-light w-100 fw-bold fs-5" style="border-radius: 5px; text-decoration: none; height: 55px; display: flex; justify-content: center; align-items: center;">
+                            {% load static %}
+                            <img src="{% static 'images/plus.svg' %}" height="40px">Add a new task
+                        </a>
+                    </h2>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

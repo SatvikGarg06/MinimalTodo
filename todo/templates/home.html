@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Welcome to TodoApp
+{% endblock %}
+
+{% block content %}
+    <div class="container py-5 text-center">
+        <h1 class="display-4 fw-bold mb-4">Welcome to TodoApp</h1>
+        <p class="lead mb-5">
+            Stay organized and boost your productivity with my simple and elegant todo manager.
+            Easily track your tasks, set deadlines, and manage your goals.
+        </p>
+
+        {% if not user.is_authenticated %}
+            <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg mx-2">Get Started</a>
+            <a href="{% url 'login' %}" class="btn btn-light btn-lg mx-2">Login</a>
+        {% else %}
+            <a href="{% url 'todos' %}" class="btn btn-light btn-lg">Go to My Todos</a>
+        {% endif %}
+
+        <hr class="my-5 text-secondary" />
+
+        <div class="row text-start mt-5">
+            <div class="col-md-4 mb-4">
+                <h4 class="fw-semibold text-light">✅ Simple Interface</h4>
+                <p class="text-secondary">A clean, distraction-free layout focused on helping you get things done.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h4 class="fw-semibold text-light">📅 Set Deadlines</h4>
+                <p class="text-secondary">Add due dates and stay on top of your goals without the clutter.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h4 class="fw-semibold text-light">🔒 Private & Secure</h4>
+                <p class="text-secondary">Your tasks are stored securely and accessible only to you.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

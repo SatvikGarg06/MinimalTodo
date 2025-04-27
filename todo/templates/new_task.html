@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+    New Task
+{% endblock %}
+
+{% block content %}
+    <div class="container d-flex justify-content-center align-items-center mt-2" style="min-height: 80vh;">
+        <div class="card p-4 shadow" style="background-color: #1e1e1e; border: none; width: 100%; max-width: 400px;">
+            <h3 class="text-center mb-4 text-light">New Task</h3>
+            <form method="POST" action="{% url 'new-task' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="task_name" class="form-label text-light">Task Name</label>
+                    <input type="text" class="form-control bg-dark text-light border-secondary" id="task_name" name="task_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="task_desc" class="form-label text-light">Task Description</label>
+                    <input type="text" class="form-control bg-dark text-light border-secondary" id="task_desc" name="task_desc">
+                </div>
+                <div class="mb-3">
+                    <label for="due_date" class="form-label text-light">Due Date</label>
+                    <input type="date" class="form-control bg-dark text-light border-secondary" id="due_date" name="due_date">
+                </div>
+                <button type="submit" class="btn btn-primary w-100" style="margin-top: 10px;">Add Task</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
